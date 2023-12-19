@@ -1,18 +1,30 @@
 import { useState } from "react";
 
 export default function App() {
-  const [games, setGames] = useState([]);
+  const [games, setGames] = useState(() => {
+    const storedGames = localStorage.getItem("game-lib");
+    if (!storedGames) return [];
+    return JSON.parse(storedGames);
+  });
   const [title, setTitle] = useState("");
   const [cover, setCover] = useState("");
 
   const addGame = ({ title, cover }) => {
     const id = Math.floor(Math.random() * 100000);
     const game = { id, title, cover };
-    setGames((state) => [...state, game]);
+    setGames((state) => {
+      const newState = [...state, game];
+      localStorage.setItem("game-lib", JSON.stringify(newState));
+      return newState;
+    });
   };
 
   const removeGame = (id) => {
-    setGames((state) => state.filter((game) => game.id !== id));
+    setGames((state) => {
+      const newState = state.filter((game) => game.id !== id);
+      localStorage.setItem("game-lib", JSON.stringify(newState));
+      return newState;
+    });
   };
 
   const handleSubmit = (ev) => {
