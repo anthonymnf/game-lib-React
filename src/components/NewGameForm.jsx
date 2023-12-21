@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import TextInput from "./TextInput";
+import style from "./form.module.css";
 
 NewFormGame.propTypes = {
   addGame: PropTypes.func,
@@ -17,7 +18,7 @@ export default function NewFormGame({ addGame }) {
     setTitle("");
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={style.container}>
       <TextInput
         id={"title"}
         value={title}
